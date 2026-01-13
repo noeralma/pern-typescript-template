@@ -46,12 +46,16 @@ This is a production-ready template for building full-stack applications using T
 
 3.  **Environment Setup**:
 
-    - Go to `server/.env` and configure your `DATABASE_URL`.
-
-    ```env
-    PORT=3000
-    DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
-    ```
+    - **Server**: Copy `.env.example` to `.env` in `server/` and configure your `DATABASE_URL`.
+      ```bash
+      cd server
+      cp .env.example .env
+      ```
+    - **Client**: Copy `.env.example` to `.env` in `client/` (optional, defaults to localhost:3000).
+      ```bash
+      cd client
+      cp .env.example .env
+      ```
 
 4.  **Database Migration** (in `server/` directory):
     ```bash
@@ -83,6 +87,7 @@ npm run dev
 
 Built with Vite + React + TypeScript + Tailwind CSS.
 
+- `src/lib/api.ts`: Configured fetch wrapper for API calls.
 - `src/App.tsx`: Main application component.
 - `src/index.css`: Tailwind directives and global styles.
 
@@ -90,7 +95,7 @@ Built with Vite + React + TypeScript + Tailwind CSS.
 
 Built with Node.js + Express + TypeScript + Prisma.
 
-- `src/app.ts`: Express app setup (middleware, CORS, etc.).
+- `src/app.ts`: Express app setup (middleware, CORS, Global Error Handler).
 - `src/routes/`: API routes definitions.
 - `src/controllers/`: Request handlers.
 - `src/utils/prisma.ts`: Prisma client instance.

@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -6,11 +6,37 @@ import router from "./routes";
 
 const app: Application = express();
 
-app.use(cors());
+// Middleware
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 
+// Routes
 app.use("/api", router);
+
+// 404 Handler
+app.use((_req: Request, res: Response) => {
+  res.status(404).json({
+    status: "error",
+    message: "Route not found",
+  });
+});
+
+// Global Error Handler
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err);
+  const status = err.status || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(status).json({
+    status: "error",
+    message,
+  });
+});
 
 export default app;
